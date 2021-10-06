@@ -41,3 +41,15 @@ try:
 except ParameterNotFoundException as e:
     # perform any cleanup action..
 ```
+
+# Performance
+
+| Amount of parameters | Missing parameters | AWStanding | SSM client calls |
+| --- | --- | --- | ---|
+| 40 | 0 | ~3.1s| ~15.5s |
+| 40 | 0 | ~2.4s| ~15.3s |
+| 40 | 0 | ~4.6s| ~14.5s |
+| 40 | 0 | ~2.5s| ~15.5s |
+| 40 | 1 | ~2.1s| error: ParameterNotFound |
+| 40 | 20 | ~2.2s| error: ParameterNotFound |
+| 40 | 40 | ~2.1s| error: ParameterNotFound |
