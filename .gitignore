@@ -1,2 +1,5 @@
 .idea/
 dist/
+
+*.swp
+*.egg-info
