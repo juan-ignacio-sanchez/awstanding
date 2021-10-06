@@ -5,6 +5,17 @@ Easily load variables from AWS Parameter store into environment variables.
 Because it handles AWS pagination so the amount of requests performed to retrieve the parameters are the bare minimum.
 Also it handles invalid parameters, so you don't have to deal with undefined variables exceptions, as an option. 
 
+# Installation
+
+```shell script
+pip install awstanding
+```
+
+I personally recommend using pipenv:
+```shell script
+pipenv install awstanding
+```
+
 # Quickstart
 ```python
 from awstanding.parameter_store import load_parameters
