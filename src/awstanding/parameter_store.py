@@ -18,8 +18,10 @@ load_parameters(LOOKUP_DICT)
 import os
 import boto3
 
+from .exceptions import ParameterNotFoundException
 
-def load_parameters(lookup_dict):
+
+def load_parameters(lookup_dict, allow_invalid=True):
     ssm = boto3.client(service_name='ssm')
     paginated_keys = (list(lookup_dict.keys())[i:i+10] for i in range(0, len(lookup_dict), 10))
 
@@ -29,6 +31,9 @@ def load_parameters(lookup_dict):
         parameters_page = ssm.get_parameters(Names=keys, WithDecryption=True)
         parameters_ps += parameters_page['Parameters']
         invalid_parameters += parameters_page['InvalidParameters']
+
+    if invalid_parameters and not allow_invalid:
+        raise ParameterNotFoundException(invalid_parameters)
 
     parameters_ps = {param['Name']: param['Value'] for param in parameters_ps}
 
