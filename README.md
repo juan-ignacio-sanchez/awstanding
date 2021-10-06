@@ -54,3 +54,26 @@ except ParameterNotFoundException as e:
 | 40 | 20 | ~2.2s| error: ParameterNotFound |
 | 40 | 40 | ~2.1s| error: ParameterNotFound |
 | 80 | 40 | ~3.5s| error: ParameterNotFound |
+| 80 | 40 | ~3.9s| (using try..except) ~32.7s |
+
+# Loading paths
+Suppose you have defined these variables in ParameterStore:
+```python
+'/stripe/price/'
+'/stripe/webhook/'  # (Let's not define this one just for demonstration)
+```
+You can leverage on the good naming and perform a path variable loading as follows:
+
+```python
+import os
+from awstanding.parameter_store import load_path
+
+load_path('/stripe', '/spotify')
+STRIPE_PRICE = os.environ.get('STRIPE_PRICE', 'fallback_value')
+STRIPE_WEBHOOK = os.environ.get('STRIPE_WEBHOOK', 'fallback_value')
+SPOTIFY_API_KEY = os.environ.get('SPOTIFY_API_KEY', 'fallback_value')
+
+print(f'price: {STRIPE_PRICE}, webhook: {STRIPE_WEBHOOK}, spotify: {SPOTIFY_API_KEY}')
+
+>>> price: price_1xxxxxxxxxxxxxxxxxxxxxxx, webhook: fallback_value, spotify: fallback_value
+```
