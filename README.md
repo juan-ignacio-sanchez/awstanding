@@ -1,4 +1,4 @@
-#AWStanding
+# AWStanding
 Easily load variables from AWS Parameter store into environment variables.
 
 # Quickstart
