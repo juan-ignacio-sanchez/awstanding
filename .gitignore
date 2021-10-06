@@ -1,5 +1,6 @@
 .idea/
 dist/
+__pycache__/
 
 *.swp
 *.egg-info
