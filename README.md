@@ -1,9 +1,13 @@
 # AWStanding
 Easily load variables from AWS Parameter store into environment variables.
 
-# Why to AWStanding?
-Because it handles AWS pagination so the amount of requests performed to retrieve the parameters are the bare minimum.
-Also it handles invalid parameters, so you don't have to deal with undefined variables exceptions, as an option. 
+# Why to use AWStanding?
+Despite it's built on top of Boto3, it has the following key features that eases the development process:
+* Simpler API
+* Error Handling
+* Pagination handling when needed (Saves you a buch of boilerplate)
+* Dynamic Parameters (variables that listen to updates on AWS)
+* S3 Integration made easy with Download/Upload methods
 
 # Installation
 
@@ -130,3 +134,27 @@ concat = '~' + IMPORTANT_SETTING + '~'
 
 str_IMPORTANT_SETTING = str(IMPORTANT_SETTING)  # Have in mind this will "freeze" the value, so don't overwrite IMPORTANT_SETTING
 ```
+
+# S3 Integration
+
+## Download files from S3
+
+```python
+from awstanding.s3 import Bucket
+
+bucket = Bucket('BUCKET_NAME_HERE')
+
+bucket.download("path/to/file.ext", './some/local/file.ext')
+```
+
+## Upload files to S3
+
+```python
+from awstanding.s3 import Bucket
+
+bucket = Bucket('BUCKET_NAME_HERE')
+
+bucket.upload('/some/local/file.ext', "some/s3/logical/path.ext")
+```
+
+There's not file type restriction any other that the set by AWS/boto3 itself.
