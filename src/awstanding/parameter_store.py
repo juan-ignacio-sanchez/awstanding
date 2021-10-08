@@ -16,10 +16,12 @@ load_parameters(LOOKUP_DICT)
 
 """
 import os
+from typing import Union
 from collections.abc import Iterable
-from typing import TypeVar, Union
 
 import boto3
+from boto3.exceptions import Boto3Error
+from botocore.exceptions import BotoCoreError, ClientError
 
 from .exceptions import ParameterNotFoundException
 
@@ -90,3 +92,43 @@ def load_path(*paths: Union[Iterable[str], str]) -> dict:
             ] = parameters_ps[key]
 
     return all_parameters
+
+
+class DynamicParameter(object):
+    @property
+    def _value(self):
+        try:
+            parameter_page = _ssm_client.get_parameter(Name=self.key, WithDecryption=True)
+        except (ClientError, Boto3Error, BotoCoreError):
+            if self.fail_on_boto_error:
+                raise
+            else:
+                return ''
+        else:
+            return parameter_page['Parameter']['Value']
+
+    def __init__(self, key, fail_on_boto_error=True, *args, **kwargs):
+        super().__init__()
+        self.key = key
+        self.fail_on_boto_error = fail_on_boto_error
+
+    def __eq__(self, other):
+        return self._value == other
+
+    def __len__(self, other):
+        return len(self._value)
+
+    def __add__(self, other):
+        return self._value + other
+
+    def __radd__(self, other):
+        return other + self._value
+
+    def __unicode__(self):
+        return str(self._value)
+
+    def __str__(self):
+        return str.__str__(self._value)
+
+    def __repr__(self):
+        return str.__repr__(self._value)

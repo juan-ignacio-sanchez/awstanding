@@ -88,3 +88,45 @@ print(f'price: {STRIPE_PRICE}, webhook: {STRIPE_WEBHOOK}, spotify: {SPOTIFY_API_
 
 >>> price: price_1xxxxxxxxxxxxxxxxxxxxxxx, webhook: fallback_value, spotify: fallback_value
 ```
+
+# Dynamic Parameters
+
+You can define dynamic parameters that uploads themselves each time they are used, so you can update
+any parameter without re-deploy your service.
+
+```python
+from src.awstanding.parameter_store import DynamicParameter
+
+IMPORTANT_SETTING = DynamicParameter('/test/parameter')
+
+print(IMPORTANT_SETTING)
+>>> OriginalValue
+
+# Someone updates /test/parameter on AWS...
+
+print(IMPORTANT_SETTING)
+>>> NewValue
+```
+
+## Supported operations
+
+Some useful operations are supported by the class itself, emulating built-in str class:
+
+```python
+from src.awstanding.parameter_store import DynamicParameter
+
+IMPORTANT_SETTING = DynamicParameter('/test/parameter')
+
+# Equality comparison
+equal = IMPORTANT_SETTING == 'SomeString'
+
+# Length
+length = len(IMPORTANT_SETTING)
+
+# Concatenation (Right and Left)
+concat = '~' + IMPORTANT_SETTING + '~'
+
+# You can always convert the parameter to string to get full string capabilities:
+
+str_IMPORTANT_SETTING = str(IMPORTANT_SETTING)  # Have in mind this will "freeze" the value, so don't overwrite IMPORTANT_SETTING
+```
