@@ -95,7 +95,7 @@ You can define dynamic parameters that uploads themselves each time they are use
 any parameter without re-deploy your service.
 
 ```python
-from src.awstanding.parameter_store import DynamicParameter
+from awstanding.parameter_store import DynamicParameter
 
 IMPORTANT_SETTING = DynamicParameter('/test/parameter')
 
@@ -113,7 +113,7 @@ print(IMPORTANT_SETTING)
 Some useful operations are supported by the class itself, emulating built-in str class:
 
 ```python
-from src.awstanding.parameter_store import DynamicParameter
+from awstanding.parameter_store import DynamicParameter
 
 IMPORTANT_SETTING = DynamicParameter('/test/parameter')
 
