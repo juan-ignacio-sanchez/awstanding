@@ -16,8 +16,7 @@ load_parameters(LOOKUP_DICT)
 
 """
 import os
-from typing import Union
-from collections.abc import Iterable
+from typing import Union, Iterable
 
 import boto3
 from boto3.exceptions import Boto3Error
